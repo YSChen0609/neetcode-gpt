@@ -26,13 +26,13 @@ class Solution:
             running_mean = (1-momentum) * running_mean + momentum * batch_mean
             running_var = (1-momentum) * running_var + momentum * batch_var
 
-            # get the normed batch (training)
             normed_batch = (x-batch_mean) / np.sqrt(batch_var+eps)
         else: # inferencing
             normed_batch = (x-running_mean) / np.sqrt(running_var+eps)
         
+        # affine transform the normed_batch (x_hat)
         affined_normed_batch = gamma * normed_batch + beta
-        
+
         return np.round(affined_normed_batch, 4).tolist(), \
                np.round(running_mean, 4).tolist(), \
                np.round(running_var, 4).tolist()
