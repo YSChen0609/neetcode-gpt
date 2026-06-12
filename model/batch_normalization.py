@@ -27,17 +27,13 @@ class Solution:
             running_var = (1-momentum) * running_var + momentum * batch_var
 
             # get the normed batch (training)
-            normed_batch = np.round(
-                gamma * ((x-batch_mean) / np.sqrt(batch_var+eps)) + beta,
-                4
-            )
+            normed_batch = (x-batch_mean) / np.sqrt(batch_var+eps)
         else: # inferencing
-            normed_batch = np.round(
-                gamma * ((x-running_mean) / np.sqrt(running_var+eps)) + beta,
-                4
-            )
+            normed_batch = (x-running_mean) / np.sqrt(running_var+eps)
         
-        return normed_batch.tolist(), \
+        affined_normed_batch = gamma * normed_batch + beta
+        
+        return np.round(affined_normed_batch, 4).tolist(), \
                np.round(running_mean, 4).tolist(), \
                np.round(running_var, 4).tolist()
 
